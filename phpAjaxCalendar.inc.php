@@ -1,6 +1,4 @@
 <?PHP
-# TODO: move to below_root_inc?
-
 // 
 //  ajax_calendar_part1.phps
 //  Ryboe Ajax Calendar
@@ -15,11 +13,6 @@
 //  Copyright 2008 Sean Sullivan under the GNU GENERAL PUBLIC [GPL] LICENSE: http://www.gnu.org/licenses/lgpl.txt
 //
 
-
-function isAjax() {
- return isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
-     $_SERVER ['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest';
-}
 
 function getPhpAjaxCalendarCore($month,$year)
 {
@@ -175,40 +168,16 @@ EOS;
 
 
 function getPhpAjaxCalendar($month, $year) {
-    return '<div class="calendar_wrapper">' . getPhpAjaxCalendarCore($month,$year) . '</div>';
-}
-
-if(isAjax() && isset($_POST['month']))
-{
-    $month = $_POST['month'];
-    $year = !isset($_POST['year']) ? date('Y', $current_time) : $_POST['year'];
-    die(getPhpAjaxCalendarCore($month,$year));
+    $r = '<div class="calendar_wrapper">' . getPhpAjaxCalendarCore($month,$year) . '</div>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js"></script>
+    <script type="text/javascript" language="javascript">
+        // use ajax to repopulate, using the parameters from the link itself
+        $("a.monthnav").click(function() {
+            $(this).parents(".calendar_wrapper").load(this.href);
+            return false;
+        });
+    </script>';
+    return $r;
 }
 
 ?>
-
-<link href="./calendar.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="<?php echo assets_baseurl()?>/js/jquery.js"></script>
-<script type="text/javascript" language="javascript">
-    // use ajax to repopulate, using the parameters from the link itself
-    $('a.monthnav').click(function() {
-        $(this).parents('.calendar_wrapper').load(this.href);
-        return false;
-    });
-</script>
-</head>
-
-<body>
-<?php
-$month = date('m');
-if (isset($_GET['month'])) {
-    $month = $_GET['month'];
-}
-$year = date('Y');
-if (isset($_GET['year'])) {
-    $month = $_GET['year'];
-}
-echo getPhpAjaxCalendar($month,$year);
-?>
-</body>
-</html>
