@@ -1,0 +1,57 @@
+body
+{
+	font-family: Verdana;
+	font-size: 12px;
+}
+
+table#calendar
+{
+	border: 1px solid #ccc;
+	background: #eee;
+}
+
+table#calendar td.month
+{
+	font-family: Trebuchet MS;
+	font-size: 24px;
+	color: green;
+	font-weight: bold;
+}
+
+table#calendar tr
+{
+	text-align: center;
+}
+
+table#calendar tr.daynames td
+{
+	width: 50px;
+	height: 25px;
+	background: #666;
+	color: #fff;
+}
+
+table#calendar tr.week td
+{
+	height: 40px;
+}
+
+table#calendar td.today
+{
+	color: white;
+	font-weight: bold;
+	background: green;
+}
+
+a.monthnav
+{
+	font-size: 10px;
+	color: #666;
+	text-decoration: none;
+}
+
+a.monthnav:hover
+{
+	color: green;
+	text-decoration: underline;
+}
