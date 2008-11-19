@@ -1,17 +1,15 @@
 <?PHP
 // 
-//  ajax_calendar_part1.phps
 //  Ryboe Ajax Calendar
 //
-//    Version: 0.02
+//    Version: 0.03
 //
-//    This is the PHP rendering portion of the calendar
-//    
 //  
 //  Author: Sean Sullivan
 //  Website: www.ryboe.com
-//  Copyright 2008 Sean Sullivan under the GNU GENERAL PUBLIC [GPL] LICENSE: http://www.gnu.org/licenses/lgpl.txt
+//  Copyright 2008 Sean Sullivan under the GNU GENERAL PUBLIC [GPL] LICENSE: http://www.gnu.org/licenses/gpl.txt
 //
+//  Copyright 2008 Dave Brondsema http://brondsema.net
 
 
 function getPhpAjaxCalendarCore($month,$year)
@@ -168,12 +166,12 @@ EOS;
 
 
 function getPhpAjaxCalendar($month, $year) {
-    $r = '<div class="calendar_wrapper">' . getPhpAjaxCalendarCore($month,$year) . '</div>
+    $r = '<div class="phpajaxcalendar_wrapper">' . getPhpAjaxCalendarCore($month,$year) . '</div>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js"></script>
     <script type="text/javascript" language="javascript">
         // use ajax to repopulate, using the parameters from the link itself
         $("a.monthnav").click(function() {
-            $(this).parents(".calendar_wrapper").load(this.href);
+            $(this).parents(".phpajaxcalendar_wrapper").load(this.href);
             return false;
         });
     </script>';
