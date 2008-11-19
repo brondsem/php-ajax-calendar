@@ -166,16 +166,15 @@ EOS;
 
 
 function getPhpAjaxCalendar($month, $year) {
-    $r = '<div class="phpajaxcalendar_wrapper">' . getPhpAjaxCalendarCore($month,$year) . '</div>
+    return '<div class="phpajaxcalendar_wrapper">' . getPhpAjaxCalendarCore($month,$year) . '</div>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js"></script>
     <script type="text/javascript" language="javascript">
         // use ajax to repopulate, using the parameters from the link itself
-        $("a.monthnav").click(function() {
+        $(".phpajaxcalendar_wrapper a.monthnav").click(function() {
             $(this).parents(".phpajaxcalendar_wrapper").load(this.href);
             return false;
         });
     </script>';
-    return $r;
 }
 
 ?>

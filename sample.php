@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../below_root_inc/phpAjaxCalendar.inc.php';
+require_once dirname(__FILE__) . '/phpAjaxCalendar.inc.php';
 
 if(@$_SERVER ['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' && isset($_POST['month']))
 {
@@ -10,6 +10,7 @@ if(@$_SERVER ['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' && isset($_POST['mont
 ?>
 <html>
 <head>
+<link href="./calendar.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <?php
