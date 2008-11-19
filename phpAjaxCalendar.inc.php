@@ -1,4 +1,5 @@
 <?PHP
+# TODO: move to below_root_inc?
 
 // 
 //  ajax_calendar_part1.phps
@@ -20,19 +21,7 @@ function isAjax() {
      $_SERVER ['HTTP_X_REQUESTED_WITH']  == 'XMLHttpRequest';
 }
 
-if(isAjax() && isset($_POST['month']))
-{
-    $month = $_POST['month'];
-    $year = !isset($_POST['year']) ? date('Y', $current_time) : $_POST['year'];
-    die(getCalendar($month,$year));
-}
-
-// Assign variables for the break down of today -- day, month and year
-$month = date('m', time());
-$year = date('Y', time());
-$calendar = getCalendar($month,$year);
-
-function getCalendar($month,$year)
+function getPhpAjaxCalendarCore($month,$year)
 {
     // Use the PHP time() function to find out the timestamp for the current time
     $current_time = time();
@@ -140,16 +129,27 @@ function getCalendar($month,$year)
     // Start the output buffer so we can output our calendar nicely
     ob_start();
     
-    $last_month = $month == 1 ? 12 : $month - 1;
-    $next_month = $month == 12 ? 1 : $month + 1;
+    $prev_month = $month - 1;
+    $prev_year = $year;
+    if ($month == 1) {
+        $prev_month = 12;
+        $prev_year = $year-1;
+    }
+    
+    $next_month = $month + 1;
+    $next_year = $year;
+    if ($month == 12) {
+        $next_month = 1;
+        $next_year = $year + 1;
+    }
     
     // Build the heading portion of the calendar table
     echo <<<EOS
     <table id="calendar">
     <tr>
-        <td><a href="#" class="monthnav" onclick="getPrevMonth();return false;">&laquo; Prev</a></td>
+        <td><a href="?month=$prev_month&year=$prev_year" class="monthnav">&laquo; Prev</a></td>
         <td colspan=5 class="month">$month_name $year</b></td>
-        <td><a href="#" class="monthnav" onclick="getNextMonth();return false;">Next &raquo;</a></td>
+        <td><a href="?month=$next_month&year=$next_year" class="monthnav">Next &raquo;</a></td>
     </tr>
     <tr class="daynames"> 
         <td>S</td><td>M</td><td>T</td><td>W</td><td>T</td><td>F</td><td>S</td>
@@ -172,48 +172,43 @@ EOS;
     
     return ob_get_clean();
 }
+
+
+function getPhpAjaxCalendar($month, $year) {
+    return '<div class="calendar_wrapper">' . getPhpAjaxCalendarCore($month,$year) . '</div>';
+}
+
+if(isAjax() && isset($_POST['month']))
+{
+    $month = $_POST['month'];
+    $year = !isset($_POST['year']) ? date('Y', $current_time) : $_POST['year'];
+    die(getPhpAjaxCalendarCore($month,$year));
+}
+
 ?>
 
-<html>
-<head>
 <link href="./calendar.css" rel="stylesheet" type="text/css">
-<script src="../js/prototype.js" type="text/javascript"></script>
+<script type="text/javascript" src="<?php echo assets_baseurl()?>/js/jquery.js"></script>
 <script type="text/javascript" language="javascript">
-    var current_month = <?PHP echo @$month ?>;
-    var current_year = <?PHP echo @$year ?>;
-    
-    function getPrevMonth()
-    {
-        if(current_month == 1)
-        {
-            current_month = 12;
-            current_year = current_year - 1;
-        }
-        else
-        {
-            current_month = current_month - 1;
-        }
-        params = 'month='+current_month+'&year='+current_year;
-        new Ajax.Updater('calendar_wrapper',window.location.pathname,{method:'post',parameters: params});
-    }
-        function getNextMonth()
-        {
-            if(current_month == 12)
-            {
-                current_month = 1;
-                current_year = current_year + 1;
-            }
-            else
-            {
-                current_month = current_month + 1;
-            }
-            params = 'month='+current_month+'&year='+current_year;
-            new Ajax.Updater('calendar_wrapper',window.location.pathname,{method:'post',parameters: params});
-        }
+    // use ajax to repopulate, using the parameters from the link itself
+    $('a.monthnav').click(function() {
+        $(this).parents('.calendar_wrapper').load(this.href);
+        return false;
+    });
 </script>
 </head>
 
 <body>
-<div id="calendar_wrapper"><?PHP echo @$calendar ?></div>
+<?php
+$month = date('m');
+if (isset($_GET['month'])) {
+    $month = $_GET['month'];
+}
+$year = date('Y');
+if (isset($_GET['year'])) {
+    $month = $_GET['year'];
+}
+echo getPhpAjaxCalendar($month,$year);
+?>
 </body>
 </html>
