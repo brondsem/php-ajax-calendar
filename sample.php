@@ -1,10 +1,10 @@
 <?php
 require_once dirname(__FILE__) . '/phpAjaxCalendar.inc.php';
 
-if(@$_SERVER ['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' && isset($_POST['month']))
+if(@$_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' && isset($_GET['month']))
 {
-    $month = $_POST['month'];
-    $year = isset($_POST['year']) ? $_POST['year'] : date('Y');
+    $month = $_GET['month'];
+    $year = isset($_GET['year']) ? $_GET['year'] : date('Y');
     die(getPhpAjaxCalendarCore($month,$year));
 }
 ?>
