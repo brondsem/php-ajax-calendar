@@ -12,7 +12,7 @@
 //  Copyright 2008 Dave Brondsema http://brondsema.net
 
 
-function getPhpAjaxCalendarCore($month,$year)
+function getPhpAjaxCalendarCore($month,$year,$day_function=null)
 {
     // Use the PHP time() function to find out the timestamp for the current time
     $current_time = time();
@@ -152,9 +152,15 @@ EOS;
         foreach($week as $day)
         {
             if($day == date('d', $current_time) && $month == date('m', $current_time) && $year == date('Y', $current_time))
-                echo '<td class="today">'.$day.'</td>';
+                echo '<td class="today">';
             else
-                echo '<td class="days">'.$day.'</td>';
+                echo '<td class="days">';
+            if ($day_function == null) {
+                echo $day;
+            } else if ($day != '') {
+                call_user_func($day_function, $year, $month, $day);
+            }
+            echo '</td>';
         }
         echo '</tr>';
     }
@@ -165,15 +171,14 @@ EOS;
 }
 
 
-function getPhpAjaxCalendar($month, $year) {
-    return '<div class="phpajaxcalendar_wrapper">' . getPhpAjaxCalendarCore($month,$year) . '</div>
+function getPhpAjaxCalendar($month, $year,$day_function=null) {
+    return '<div class="phpajaxcalendar_wrapper">' . getPhpAjaxCalendarCore($month,$year,$day_function) . '</div>
     <script type="text/javascript" language="javascript">
         function phpAjaxCalendar_clickMonth() {
             // use ajax to repopulate, using the parameters from the link itself
             $(this).parents(".phpajaxcalendar_wrapper").load(this.href, {}, function() {
                 // and reset the click handling for the new HTML
                 $(".phpajaxcalendar_wrapper a.monthnav").click(phpAjaxCalendar_clickMonth);
-                console.log("rebound", $(".phpajaxcalendar_wrapper a.monthnav"));
             });
             return false;
         }
