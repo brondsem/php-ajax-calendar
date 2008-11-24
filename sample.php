@@ -13,6 +13,7 @@ if(@$_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' && isset($_GET['month'
 <link href="./calendar.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js"></script>
 <?php
 $month = date('m');
 if (isset($_GET['month'])) {

@@ -167,7 +167,6 @@ EOS;
 
 function getPhpAjaxCalendar($month, $year) {
     return '<div class="phpajaxcalendar_wrapper">' . getPhpAjaxCalendarCore($month,$year) . '</div>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js"></script>
     <script type="text/javascript" language="javascript">
         function phpAjaxCalendar_clickMonth() {
             // use ajax to repopulate, using the parameters from the link itself
