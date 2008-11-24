@@ -169,11 +169,16 @@ function getPhpAjaxCalendar($month, $year) {
     return '<div class="phpajaxcalendar_wrapper">' . getPhpAjaxCalendarCore($month,$year) . '</div>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js"></script>
     <script type="text/javascript" language="javascript">
-        // use ajax to repopulate, using the parameters from the link itself
-        $(".phpajaxcalendar_wrapper a.monthnav").click(function() {
-            $(this).parents(".phpajaxcalendar_wrapper").load(this.href);
+        function phpAjaxCalendar_clickMonth() {
+            // use ajax to repopulate, using the parameters from the link itself
+            $(this).parents(".phpajaxcalendar_wrapper").load(this.href, {}, function() {
+                // and reset the click handling for the new HTML
+                $(".phpajaxcalendar_wrapper a.monthnav").click(phpAjaxCalendar_clickMonth);
+                console.log("rebound", $(".phpajaxcalendar_wrapper a.monthnav"));
+            });
             return false;
-        });
+        }
+        $(".phpajaxcalendar_wrapper a.monthnav").click(phpAjaxCalendar_clickMonth);
     </script>';
 }
 
