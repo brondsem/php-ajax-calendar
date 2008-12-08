@@ -139,7 +139,7 @@ function getPhpAjaxCalendarCore($month,$year,$day_function=null)
     <table id="calendar">
     <tr>
         <td><a href="?month=$prev_month&year=$prev_year" class="monthnav">&laquo; Prev</a></td>
-        <td colspan=5 class="month">$month_name $year</b></td>
+        <td colspan="5" class="month">$month_name $year</td>
         <td><a href="?month=$next_month&year=$next_year" class="monthnav">Next &raquo;</a></td>
     </tr>
     <tr class="daynames"> 
@@ -157,7 +157,7 @@ EOS;
                 echo '<td class="days">';
             if ($day_function == null) {
                 echo $day;
-            } else if ($day != '') {
+            } else {
                 call_user_func($day_function, $year, $month, $day);
             }
             echo '</td>';

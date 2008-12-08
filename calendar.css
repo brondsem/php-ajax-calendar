@@ -3,6 +3,11 @@
 	text-align: center;
 }
 
+.phpajaxcalendar_wrapper table#calendar .month
+{
+    width:auto;/* stupid IE */
+}
+
 .phpajaxcalendar_wrapper table#calendar tr.daynames td
 {
 	width: 50px;

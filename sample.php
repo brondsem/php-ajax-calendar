@@ -3,6 +3,10 @@ require_once dirname(__FILE__) . '/phpAjaxCalendar.inc.php';
 
 # using a callback function like this is optional
 function day_details($y,$m,$d) {
+    # blank cells before day 1 or after day 30/31
+    if ($day == '') {
+        echo '&nbsp;'; # for IE table cells
+    }
     echo "$d";
     if ($m == 1 and $d == 1) {
         echo "<br/><em>New Year's Day!</em>";
